@@ -4,7 +4,7 @@ import { prisma } from "../lib/prisma";
 import { connectToDb, disconnectToDb } from "../lib/prisma";
 
 
-connectToDb();
+// connectToDb is handled in server.ts
 
 const router = express.Router();
 
