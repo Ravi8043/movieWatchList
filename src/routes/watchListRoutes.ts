@@ -1,5 +1,5 @@
 import express from "express";
-import { addToWatchList, removeFromWatchList } from "../controllers/watchListController";
+import { addToWatchList, removeFromWatchList, getWatchList, getWatchListItem, updateWatchListItem } from "../controllers/watchListController";
 import { authMiddleware } from "../middlewares/authMiddleware";
 
 
@@ -11,6 +11,9 @@ router.use(authMiddleware);
 //if you want to add middleware to a specific route, you can do it like this:
 //router.post("/add", authMiddleware, addToWatchList);
 router.post("/add", addToWatchList);
-router.post("/remove", removeFromWatchList);
+router.delete("/delete/:id", removeFromWatchList);
+router.get("/", getWatchList);
+router.get("/:id", getWatchListItem);
+router.put("/update/:id", updateWatchListItem);
 
 export default router;

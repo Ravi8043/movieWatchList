@@ -1,17 +1,15 @@
 import express from "express";
-import { Request, Response } from "express";
-import { prisma } from "../lib/prisma";
-import { connectToDb, disconnectToDb } from "../lib/prisma";
-
+import { addMovie, removeMovie, getMovieItem, updateMovieItem, getAllMovies } from "../controllers/movieController";
+import { authMiddleware } from "../middlewares/authMiddleware";
 
 // connectToDb is handled in server.ts
 
 const router = express.Router();
 
-router.get("/", (req: Request, res: Response) => {
-    res.json({
-        message: "hello world"
-    });
-});
-
+router.use(authMiddleware);
+router.post("/add", addMovie);
+router.delete("/remove", removeMovie); //instead of post use delete request type
+router.get("/:id", getMovieItem);
+router.put("/update/:id", updateMovieItem);
+router.get("/", getAllMovies);
 export default router;

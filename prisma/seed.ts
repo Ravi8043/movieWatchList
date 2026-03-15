@@ -5,6 +5,7 @@ async function main() {
 
     // 1. Ensure we have a user to own the movies
     // The Movie model requires a userId
+    //upsert -> update or create
     const user = await prisma.user.upsert({
         where: { email: "admin@example.com" },
         update: {},
@@ -56,7 +57,7 @@ async function main() {
     ];
 
     console.log("Seeding movies...");
-    
+
     // Optional: Clear existing movies for this user to avoid duplicates if you run the seed multiple times
     // await prisma.movie.deleteMany({ where: { userId: user.id } });
 
