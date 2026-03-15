@@ -1,10 +1,15 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import { prisma } from "../lib/prisma";
+import { AuthRequest } from "../types/express";
 
-const addToWatchList = async (req: Request, res: Response) => {
+const addToWatchList = async (req: AuthRequest, res: Response) => {
     try {
         const { movieId, status, notes } = req.body;
-        const userId = (req as any).user.id;
+        
+        if (!req.user) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+        const userId = req.user.id;
 
         //verify if movie exists
         const movie = await prisma.movie.findUnique({
@@ -47,10 +52,14 @@ const addToWatchList = async (req: Request, res: Response) => {
     }
 }
 
-const removeFromWatchList = async (req: Request, res: Response) => {
+const removeFromWatchList = async (req: AuthRequest, res: Response) => {
     try {
         const { movieId } = req.body;
-        const userId = (req as any).user.id;
+
+        if (!req.user) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+        const userId = req.user.id;
 
         //verify if movie exists
         const movie = await prisma.movie.findUnique({
